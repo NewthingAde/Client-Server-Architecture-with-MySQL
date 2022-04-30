@@ -123,4 +123,67 @@ By default, both of your EC2 virtual servers are located in the same local virtu
                         sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf 
                         
 **Replace ‘127.0.0.1’ to ‘0.0.0.0’ like this:**
-    ![mysql_bind](https://user-images.githubusercontent.com/80678596/166098952-ff518165-c1e0-48a0-8d30-dc6fff6a0483.png)
+
+![mysql_bind](https://user-images.githubusercontent.com/80678596/166098952-ff518165-c1e0-48a0-8d30-dc6fff6a0483.png)
+
+- From mysql client Linux Server connect remotely to mysql server Database Engine without using SSH. You must use the mysql utility to perform this action.
+
+    Create a databse on the mysql-server server using the below commands:
+    
+     - We go into our database
+                                                
+                                                sudo mysql
+     - create database
+     
+                          CREATE USER 'webaccess'@'%' IDENTIFIED BY 'password';
+                          
+         if you encouter this error `Your password does not satisfy the current policy requirements` then you should follow the following proced
+         
+                              SHOW VARIABLES LIKE 'validate_password%';
+                              
+         - The output will be similar to the below
+         
+                            +--------------------------------------+-------+
+                            | Variable_name                        | Value |
+                            +--------------------------------------+-------+
+                            | validate_password.check_user_name    | ON    |
+                            | validate_password.dictionary_file    |       |
+                            | validate_password.length             | 6     |
+                            | validate_password.mixed_case_count   | 1     |
+                            | validate_password.number_count       | 1     |
+                            | validate_password.policy             | LOW   |
+                            | validate_password.special_char_count | 1     |
+                            +--------------------------------------+-------+
+                            
+         - Then you can set the password policy level lower, for example:
+                          
+                                          SET GLOBAL validate_password.length = 6;
+                                          SET GLOBAL validate_password.number_count = 0;
+
+     - create database tooling
+
+                                                  CREATE DATABASE tooling;
+
+     - Grant database access
+
+                            GRANT ALL PRIVILEGES ON tooling.* TO 'webaccess'@'%' WITH GRANT OPTION;
+
+     - Flush database priviledge
+
+                                              FLUSH PRIVILEGES;
+
+     - We can exit the server using the following command
+
+                                                      exit
+
+     - Next we restart our database 
+      
+                                  sudo systemctl restart mysql
+                                  
+- After creating a database on the mysql-server server, login into the mysql-server server via the mysql-client server using the following commands:
+
+                                  sudo mysql -u webaccess -h <private ip-address of mysql-client> -p
+                                  
+- Check that you have successfully connected to a remote MySQL server and can perform SQL queries:
+
+                                               Show databases;
