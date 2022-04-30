@@ -22,16 +22,17 @@ To develop a basic client-server using MySQL Relational Database Management Syst
 
                  sudo mysql_secure_installation
 
-  - You can sudo in the the server using the command
+  - Next, we install mysql secure installation utility
 
-                        sudo systemctl start mysql
+                sudo mysql_secure_installation utility
 
 When working with remote servers, you'll want to make sure that the SSH port is open to connections so that you are able to log in to your server remotely. The following command will enable the OpenSSH UFW application profile and allow all connections to the default SSH port on the server: 
   This will be display which shows that it is successful
   
                         sudo ufw enable
 
-<img width="563" alt="Screenshot 2022-04-30 at 08 25 41" src="https://user-images.githubusercontent.com/80678596/166094502-1c62a199-9d40-4637-878d-6959101174a2.png">
+<img width="563" alt="Screenshot 2022-04-30 at 08 55 38" src="https://user-images.githubusercontent.com/80678596/166095602-ec510954-6d27-49f5-a3d2-65b624086523.png">
+
 
    #### Point to Note
    
@@ -61,28 +62,38 @@ When working with remote servers, you'll want to make sure that the SSH port is 
               iptables -L
               iptables -F
               --//
-
    4. Once added, restart the instance and ssh should work. The userdata disables ufw if enabled and also flushes any iptable rules blocking ssh access
 
 
+- Next is to allow mysql so we can be able to communicate with the server using ssh which will add rule to it
+
+                            sudo ufw allow mysql
 
 
+<img width="494" alt="Screenshot 2022-04-30 at 08 56 30" src="https://user-images.githubusercontent.com/80678596/166095679-74fe2ee5-e46d-40d8-b1d0-2a5dd421035d.png">
 
+- Next we start the mysql with the command below
 
-- Next is to allow mysql so we can be able to communicate with the server
+                              sudo systemctl start mysql
 
-                            sudo systemctl enable mysql
+- Next we will enable mysql
+
+                              sudo systemctl enable mysql
+                              
+<img width="559" alt="Screenshot 2022-04-30 at 09 06 32" src="https://user-images.githubusercontent.com/80678596/166095768-75e099ac-a7c5-4289-baec-01ef59a65480.png">
+
+- Then we restart mysql to effect the changes
+
+                            sudo systemctl restart mysql
                             
-- Next we restart the mysql with the command below
+- Next check if the mysql server is working
 
-                              sudo systemctl restart mysql
+                             sudo mysql
 
-  <img width="610" alt="Screenshot 2022-04-28 at 22 43 14" src="https://user-images.githubusercontent.com/80678596/165842365-dc5accb8-86b9-47db-a012-73a918bc9086.png">
-
-
- - We can exit the server using the following command
+- We can exit the server using the following command
 
                              exit
+
 
 ## On mysql client Linux Server install MySQL Client software.
 
