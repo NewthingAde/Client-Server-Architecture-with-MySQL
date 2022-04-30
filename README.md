@@ -122,5 +122,5 @@ By default, both of your EC2 virtual servers are located in the same local virtu
 
                         sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf 
                         
-        **Replace ‘127.0.0.1’ to ‘0.0.0.0’ like this:**
+**Replace ‘127.0.0.1’ to ‘0.0.0.0’ like this:**
     ![mysql_bind](https://user-images.githubusercontent.com/80678596/166098952-ff518165-c1e0-48a0-8d30-dc6fff6a0483.png)
