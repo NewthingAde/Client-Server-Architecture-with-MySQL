@@ -97,3 +97,30 @@ When working with remote servers, you'll want to make sure that the SSH port is 
 
 ## On mysql client Linux Server install MySQL Client software.
 
+- In the Clint instance, you would use the same steps as we did in installing the server
+
+                                  sudo apt-get update
+                                  
+                              sudo apt-get install mysql-server
+                              
+                              sudo mysql_secure_installation utility
+                              
+                                       sudo ufw enable
+                                       
+                                      sudo ufw allow mysql
+                                      
+                                    sudo systemctl start mysql
+                                    
+                                    sudo systemctl enable mysql
+                                    
+                                    sudo systemctl restart mysql
+
+
+By default, both of your EC2 virtual servers are located in the same local virtual network, so they can communicate to each other using local IP addresses. Use mysql server's local IP address to connect from mysql client. MySQL server uses TCP port 3306 by default, so you will have to open it by creating a new entry in ‘Inbound rules’ in ‘mysql server’ Security Groups. For extra security, do not allow all IP addresses to reach your ‘mysql server’ - allow access only to the specific local IP address of your ‘mysql client’.
+
+- Next is to configure MySQL server to allow connections from remote hosts.
+
+                        sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf 
+                        
+        **Replace ‘127.0.0.1’ to ‘0.0.0.0’ like this:**
+    ![mysql_bind](https://user-images.githubusercontent.com/80678596/166098952-ff518165-c1e0-48a0-8d30-dc6fff6a0483.png)
